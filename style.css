@@ -1,0 +1,133 @@
+@import url('https://fonts.googleapis.com/css2?family=M+PLUS+1+Code:wght@400;700&display=swap');
+html {
+  font-family:'M PLUS 1 Code', monospace;
+  height: 100%;
+  width: 100%;
+}
+
+
+.info-container{
+  
+  background-color: #3B51C4;
+  padding: 20px;
+  border-radius: 20px;
+  margin-bottom:25px;
+  padding-top:5px;
+}
+
+.types_of_games{
+  background-color: #844EB1;
+  padding: 20px;
+  border-radius: 20px;
+  padding-top:5px;
+  padding-bottom:10px
+}
+
+
+.home_image{
+  display:inline-block;
+  /* border-width:16px;
+  border-color:black;
+  border-style:solid; */
+  text-align: center;
+  padding-top:3em;
+  padding-bottom:3em;
+  margin-top:60px;
+  width:100%;
+  background-color:darkcyan
+}
+
+/* .m-plus 1 code-cool {
+  font-family: "M PLUS 1 Code", monospace;
+  font-optical-sizing: auto;
+  font-weight:100;
+  font-style: normal;
+} */
+
+
+.index {
+  font-family:'M PLUS 1 Code', monospace;
+  background-color:darkcyan;
+  margin:0;
+  padding:0;
+  
+}
+
+.about {
+  font-family:'M PLUS 1 Code', monospace;
+  background-color:orange;
+}
+
+.projects {
+  background-color:violet;
+}
+
+.content {
+  background-color:crimson
+}
+
+.indexH1{
+  margin-left:46%
+}
+
+nav{
+  max-width:110%;
+  margin:0;
+  padding:0;
+  
+}
+
+nav ul{
+  list-style:none;
+  margin: 0;
+  padding: 0;
+  background-color:darkgray;
+  overflow:hidden;
+  text-align: center;
+}
+
+nav ul li{
+  display:inline-block;
+}
+
+nav ul li a{
+  display:block;
+  padding:10px 20px;
+  font-size: 1.2em;
+  color:white;
+  text-decoration:none;
+}
+
+nav ul li a:hover{
+  background-color:black;
+  
+}
+.nav-links li a:hover, .dropdown-games:hover .games_button{
+  background-color:black;
+}
+.dropdown-games{
+  display:none;
+  position:absolute;
+  min-width:180px;
+  box-shadow:0px 8px 16px 0px rgba(0,0,0,0.3);
+  z-index:1;
+}
+.dropdown:hover .dropdown-games{
+  display:block
+}
+.dropdown-games a{
+  background-color:darkgray;;
+}
+
+.dropdown-games a:hover{
+  background-color:black;
+}
+
+.game1Text{
+  margin-left:10%;
+  margin-right:10%;
+}
+
+.game1 {
+  background-color:lightblue;
+}
