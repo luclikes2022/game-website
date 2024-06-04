@@ -8,7 +8,8 @@ export default defineConfig({
                 home: './src/pages/index.html',
                 about: './src/pages/about.html',
                 content: './src/pages/content.html',
-                projects: './src/pages/projects.html'
+                projects: './src/pages/projects.html',
+                game1: './src/pages/game1.html'
             }
         }
     },
