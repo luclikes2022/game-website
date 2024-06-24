@@ -17,7 +17,9 @@ function draw(){
     // keyPress();
     player.move();
     if(frameCount % 100 == 0){
-      obsticals.push(new Obstical());
+      let x = width
+      obsticals.push(new Obstical(false, x));
+      obsticals.push(new Obstical(true, x));
     }
     for(let i = 0; i < obsticals.length; i++){
       obsticals[i].display();
@@ -25,6 +27,8 @@ function draw(){
       if(obsticals[i].hits(player)){
         gameOver=true
         console.log("HIT");
+        buttonspawn();
+        continue;
       }
       if(obsticals[i].offscreen()){
         obsticals.splice(i,1);
@@ -32,12 +36,22 @@ function draw(){
       }
     }
     textSize(32);
-    text("score: "+score, 10,30)
+    text("score: "+(score)/2, 10,30)
   }
+}
+function restart(){
+  score = 0;
+  obsticals = [];
+  gameOver=false;
+}
+function buttonspawn(){
+   let relod = createButton("Restart");
+    relod.position(400,200);
+    relod.mousePressed(restart());
 }
 
 function keyPressed(){
-  if(key == "w"){
+  if(key == " "){
     player.up();
 
   }
@@ -74,16 +88,21 @@ class Player{
 }
 
 class Obstical{
-  constructor(){
+  constructor(temp, x){
     this.speed = 6;
     this.w = 20;
     this.h = random(20, 200);
-    this.x = width;
-    this.y = height-this.h;
+    if(temp){
+      this.x = x;
+      this.y = height-this.h;
+    }else{
+      this.x = x;
+      this.y = 0;
+    }
   }
   display(){
-    fill(255);
-    rect(this.x, this.y, this.w, this.h);
+      fill(255);
+      rect(this.x, this.y, this.w, this.h);
   }
   move(){
     this.x -= this.speed;
@@ -103,10 +122,14 @@ const obstacleRight = this.x + this.w;
 // Check if the player's bottom side is below the obstacle's top side
 const playerBottom = player.y + playerRadius;
 const obstacleTop = this.y;
+    
+    const obstacleBottom = this.y + this.h;
+    const playerTop = player.y - playerRadius;
 
 // Only check vertically because obstacles are at the bottom of the screen
+
 const collisionHorizontally = playerRight > obstacleLeft && playerLeft < obstacleRight;
-const collisionVertically = playerBottom > obstacleTop;
+const collisionVertically = playerBottom > obstacleTop && playerTop < obstacleBottom;
 
 return collisionHorizontally && collisionVertically;
 }
@@ -115,3 +138,4 @@ return collisionHorizontally && collisionVertically;
     return this.x < this.w;
   }
 }
+
