@@ -2,7 +2,7 @@ let player;
 let obsticals = [];
 let score = 0;
 let gameOver = false;
-
+let reload;
 function setup(){
   createCanvas(800, 400);
   player= new Player();
@@ -37,17 +37,22 @@ function draw(){
     }
     textSize(32);
     text("score: "+(score)/2, 10,30)
+  }else{
+    text("game over",300,200)
   }
 }
 function restart(){
   score = 0;
   obsticals = [];
   gameOver=false;
+  if(reload){
+    reload.remove();
+  }
 }
 function buttonspawn(){
-   let relod = createButton("Restart");
-    relod.position(400,200);
-    relod.mousePressed(restart());
+   reload = createButton("Restart");
+    reload.position(400,400);
+    reload.mousePressed(restart);
 }
 
 function keyPressed(){
@@ -91,7 +96,7 @@ class Obstical{
   constructor(temp, x){
     this.speed = 6;
     this.w = 20;
-    this.h = random(20, 200);
+    this.h = random(20, 150);
     if(temp){
       this.x = x;
       this.y = height-this.h;
