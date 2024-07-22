@@ -137,8 +137,14 @@ nav ul li a:hover {
 
 .game1 {
   background-color: lightblue;
+  text-align:center;
 }
 
 .game_image {
 width: 20em
+}
+
+.insane{
+  background-color: teal;
+  text-align: center;
 }

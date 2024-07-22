@@ -51,7 +51,7 @@ function restart(){
 }
 function buttonspawn(){
    reload = createButton("Restart");
-    reload.position(400,400);
+    reload.position(windowWidth/2-reload.elt.offsetWidth, windowHeight/2);
     reload.mousePressed(restart);
 }
 
