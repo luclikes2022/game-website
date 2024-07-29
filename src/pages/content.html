@@ -9,6 +9,93 @@
   <style>
     body {
       background-color: dodgerblue;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    #editor-container,
+    #fileContent,
+    #fileUpload {
+      width: 80%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-top: 20px;
+    }
+
+    #fileUpload {
+      padding: 20px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      cursor: pointer;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    #fileUpload:hover {
+      background-color: #f1f1f1;
+    }
+
+    #fileContent {
+      margin-top: 20px;
+    }
+
+    pre {
+      width: 100%;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+    }
+
+    #editor-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    #editor {
+      width: 80%;
+      height: 200px;
+      margin-top: 20px;
+      padding: 10px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    #run-btn {
+      margin-top: 10px;
+      padding: 10px 20px;
+      font-size: 16px;
+      border: none;
+      border-radius: 4px;
+      background-color: #28a745;
+      color: white;
+      cursor: pointer;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    #run-btn:hover {
+      background-color: #218838;
+    }
+
+    #canvas-container {
+      width: 100%;
+      height: calc(100% - 300px);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-top: 20px;
+    }
+
+    iframe {
+      width: 80%;
+      height: 100%;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     }
   </style>
 </head>
@@ -25,18 +112,24 @@
           <a>Game Type 2</a>
           <a>Game Type 3</a>
           <a>Game Type 4</a>
-
-
         </div>
       </li>
-      <li><a href="content.html">Comunity</a></li>
+      <li><a href="content.html">Community</a></li>
     </ul>
   </nav>
   <h1>Content</h1>
   <h2>Here are some of the content that I made:</h2>
-  <input class = "insane" type="file" id="fileUpload" />
-  <div id = "fileContent"><pre id = "fileContentPre">file content will be displayed here</pre></div>
-  <div id = "p5jsContainer"></div>
+  <input class="insane" type="file" id="fileUpload" />
+  <div id="fileContent">
+    <pre id="fileContentPre">file content will be displayed here</pre>
+  </div>
+  <div id="editor-container">
+    <textarea id="editor" placeholder="Write your p5.js code here..."></textarea>
+    <button id="run-btn">Run</button>
+  </div>
+  <div id="canvas-container">
+    <iframe id="output" sandbox="allow-scripts"></iframe>
+  </div>
   <script type="module" src="/src/main.js"></script>
   <script src="script.js"></script>
 </body>

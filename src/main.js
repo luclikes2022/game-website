@@ -1,8 +1,10 @@
 const fileUpload = document.getElementById('fileUpload');
-const fileContentPre = document.getElementById('fileContentPre');
-const p5jsContainer = document.getElementById('p5jsContainer');
-fileUpload.addEventListener('change', handleFileUpload);
+const editor = document.getElementById('editor');
+const runBtn = document.getElementById('run-btn');
+const output = document.getElementById('output');
 
+fileUpload.addEventListener('change', handleFileUpload);
+runBtn.addEventListener('click', runP5jsFromEditor);
 
 function handleFileUpload(event) {
     const file = event.target.files[0];
@@ -10,21 +12,29 @@ function handleFileUpload(event) {
         let reader = new FileReader();
         reader.onload = function (e) {
             const fileContent = e.target.result;
-            // displayFileContent(fileContent);
-            runP5js(fileContent)
+            editor.value = fileContent;
         };
         reader.readAsText(file);
     }
 }
-function displayFileContent(content) {
-    fileContentPre.textContent = content;
-    console.log(content);
-}
-function runP5js(code){
-    const script = document.createElement('script');
-    script.type='text/javascript';
-    script.text=code;
-    p5jsContainer.appendChild(script);
 
-    console.log(p5jsContainer.firstChild.text);
+function runP5jsFromEditor() {
+    const userCode = editor.value;
+    runP5js(userCode);
+}
+
+function runP5js(code) {
+    const iframeContent = `
+        <html>
+            <head>
+                <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js"></script>
+            </head>
+            <body>
+                <script>
+                    ${code}
+                </script>
+            </body>
+        </html>
+    `;
+    output.srcdoc = iframeContent;
 }
