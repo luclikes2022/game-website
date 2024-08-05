@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>content</title>
+  <link href="style.css" rel="stylesheet" type="text/css" />
+  <style>
+    body {
+      background-color: dodgerblue;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+   
+  </style>
+</head>
+
+<body class="content">
+  <nav>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="about.html">About</a></li>
+      <li class="dropdown">
+        <a class="games_buttons" href="projects.html">Games</a>
+        <div class="dropdown-games">
+          <a href="game1.html">Game Type 1</a>
+          <a>Game Type 2</a>
+          <a>Game Type 3</a>
+          <a>Game Type 4</a>
+        </div>
+      </li>
+      <li><a href="content.html">Community</a></li>
+    </ul>
+  </nav>
+  <h1>Content</h1>
+  <h2>Here are some of the content that I made:</h2>
+  <input class="insane" type="file" id="fileUpload" />
+  <div id="fileContent">
+    <pre id="fileContentPre">file content will be displayed here</pre>
+  </div>
+  <div id="main-container">
+    <div id="editor-container">
+    <textarea id="editor" placeholder="Write your p5.js code here.."></textarea>
+    <button id="run-btn">Run</button>
+    </div>
+    <div id="canvas-container">
+    <iframe id="output" sandbox="allow-scripts"></iframe>
+    </div>
+    </div>
+  <script type="module" src="/src/main.js"></script>
+  <script src="script.js"></script>
+</body>
+
+</html>

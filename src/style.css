@@ -184,12 +184,13 @@ pre {
 
 #editor-container {
   display: flex;
-  flex-direction: column;
-  align-items: center;
+  flex-direction:column;
+  align-items: left;
+  width: 200em;
 }
 
 #editor {
-  width: 50%;
+  width: 50em;
   height: 200px;
   margin-top: 20px;
   padding: 10px;
@@ -215,13 +216,7 @@ pre {
   background-color: #218838;
 }
 
-/* #canvas-container {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-top: 20px;
-} */
+
 
 iframe {
   width: 80%;
@@ -231,15 +226,17 @@ iframe {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-#main-cantainer{
+#main-container{
   display: flex;
   width: 80%;
   margin-top: 2em;
+  height: 100%;
+
 }
 
 #editor-container,
 #canvas-container {
-width: 50%;
+
 display: flex;
 flex-direction: column;
 align-items: center;
@@ -247,4 +244,12 @@ align-items: center;
 
 #canvas-container {
 justify-content: center;
+width: 800%;
+height:800%;
+
+}
+
+#output{
+  height: 450px;
+  width: 850px
 }
