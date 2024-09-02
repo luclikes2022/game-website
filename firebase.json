@@ -9,7 +9,27 @@
     "rewrites": [
       {
         "source": "**",
-        "destination": "/pages/index.html"
+        "destination": "/index.html"
+      },
+      {
+        "source": "/about",
+        "destination": "/about.html"
+      },
+      {
+        "source": "/content",
+        "destination": "/content.html"
+      },
+      {
+        "source": "/projects",
+        "destination": "/projects.html"
+      },
+      {
+        "source": "/game1",
+        "destination": "/game1.html"
+      },
+      {
+        "source": "/platform",
+        "destination": "/platform.html"
       }
     ]
   }

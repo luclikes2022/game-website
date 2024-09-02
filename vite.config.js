@@ -5,16 +5,16 @@ export default defineConfig({
     build: {
         rollupOptions: {
             input: {
-                home: './src/pages/index.html',
-                about: './src/pages/about.html',
-                content: './src/pages/content.html',
-                projects: './src/pages/projects.html',
-                game1: './src/pages/game1.html'
+                home: './src/index.html',
+                about: './src/about.html',
+                content: './src/content.html',
+                projects: './src/projects.html',
+                game1: './src/game1.html'
             }
         }
     },
     server: {
-        open: '/src/pages/index.html', // Automatically opens the home page in the browser
+        open: '/src/index.html', // Automatically opens the home page in the browser
     },
     base: './' // Ensure correct paths during build
 });
