@@ -3,6 +3,7 @@ let obsticals = [];
 let score = 0;
 let gameOver = false;
 let reload;
+let touchj = 0;
 function setup(){
   createCanvas(800, 400);
   player= new Player();
@@ -14,6 +15,7 @@ function draw(){
     background(5);
     player.display();
     fill(0);
+    clicktap();
     // keyPress();
     player.move();
     if(frameCount % 100 == 0){
@@ -46,6 +48,19 @@ function draw(){
     text("game over",300,200)
   }
 }
+
+function clicktap(){
+  console.log(touches.length)
+  if(touches.length > touchj){
+    player.up();
+    touchj=touches.length;
+    console.log("clicked!")
+  }
+  console.log("sandwiches!")
+}
+
+
+
 function restart(){
   score = 0;
   obsticals = [];
