@@ -32,11 +32,16 @@ function draw(){
       }
       if(obsticals[i].offscreen()){
         obsticals.splice(i,1);
-        score++;
+        console.log("passed obsticle")
+        if(obsticals.length%2 == 0){
+          score++;
+          console.log(score)
+          
       }
     }
+    }
     textSize(32);
-    text("score: "+(score)/2, 10,30)
+    text("score: "+(score), 10,30)
   }else{
     text("game over",300,200)
   }
@@ -60,6 +65,9 @@ function keyPressed(){
     player.up();
 
   }
+}
+function mousePressed(){
+  player.up();
 }
 
 class Player{
@@ -90,7 +98,7 @@ class Player{
         console.log("press")
         console.log(this.velocity)
   }
-}
+} 
 
 class Obstical{
   constructor(temp, x){
