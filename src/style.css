@@ -38,12 +38,11 @@ html {
   background-color: darkcyan
 }
 
-/* .m-plus 1 code-cool {
-  font-family: "M PLUS 1 Code", monospace;
-  font-optical-sizing: auto;
-  font-weight:100;
-  font-style: normal;
-} */
+.platform{
+  background-color: #218838;
+  text-align: center;
+  align-items:center;
+}
 
 
 .index {
