@@ -111,7 +111,7 @@ class Player {
   up() {
     this.velocity += this.lift;
     console.log("press")
-    console.log(this.velocity)
+    console.log(this.velocity) 
   }
 }
 

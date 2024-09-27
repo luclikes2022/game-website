@@ -1,21 +1,31 @@
 let player;
-let obsticals = [];
+let terrains = [];
 let score = 0;
 let gameOver = false;
 let reload;
 let touchj = 0;
+let terrain1;
+let boss;
+let terrainPos = [[100, 350], [400, 350]]
 function setup() {
     createCanvas(800, 400);
     player = new Player();
     frameRate(120)
+    boss = new Boss(700, 300);
+    for (var i = 0; i < terrainPos.length; i++) {
+        terrains.push(new terrain(terrainPos[i][0], terrainPos[i][1]));
+    }
 }
+
+
 
 function draw() {
     if (gameOver == false) {
         background(5);
         player.display();
         fill(0);
-
+        drawObs();
+        boss.display();
         player.move();
 
         textSize(32);
@@ -25,11 +35,17 @@ function draw() {
     }
 }
 
+function drawObs() {
+    for (let i = 0; i < terrains.length; i++) {
+        terrains[i].display();
+    }
+}
+
 
 
 function restart() {
     score = 0;
-    obsticals = [];
+    terrains = [];
     gameOver = false;
     if (reload) {
         reload.remove();
@@ -82,7 +98,6 @@ class Player {
         }
 
 
-
     }
     up() {
         this.velocity += this.lift;
@@ -91,3 +106,58 @@ class Player {
     }
 }
 
+class terrain {
+    constructor(x, y) {
+        this.w = random(20, 200);
+        this.h = 15;
+        this.x = x;
+        this.y = y;
+
+    }
+    display() {
+        fill(255);
+        rect(this.x, this.y, this.w, this.h);
+    }
+}
+
+
+class Boss {
+    constructor(x, y) {
+        this.w = 50;
+        this.h = 30
+        this.x = x;
+        this.y = y;
+
+    }
+    display() {
+        fill(255);
+        ellipse(this.x, this.y, this.x / 4, this.y / 4);
+    }
+
+    hits(player) {
+        // Radius of the player's circle
+        const playerRadius = 16; // half of the player's diameter (32)
+    
+        // Check if the player's right side is beyond the obstacle's left side
+        const playerRight = player.x + playerRadius;
+        const obstacleLeft = this.x;
+    
+        // Check if the player's left side is before the obstacle's right side
+        const playerLeft = player.x - playerRadius;
+        const obstacleRight = this.x + this.w;
+    
+        // Check if the player's bottom side is below the obstacle's top side
+        const playerBottom = player.y + playerRadius;
+        const obstacleTop = this.y;
+    
+        const obstacleBottom = this.y + this.h;
+        const playerTop = player.y - playerRadius;
+    
+        // Only check vertically because obstacles are at the bottom of the screen
+    
+        const collisionHorizontally = playerRight > obstacleLeft && playerLeft < obstacleRight;
+        const collisionVertically = playerBottom > obstacleTop && playerTop < obstacleBottom;
+    
+        return collisionHorizontally && collisionVertically;
+      }
+}
