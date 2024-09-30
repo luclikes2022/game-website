@@ -104,6 +104,21 @@ class Player {
         console.log("press");
         console.log(this.velocity);
     }
+
+
+    handleCollision(box) {
+        if (this.x < box.x) {
+        this.x = box.x - this.r;
+        } else if (this.x > box.x + box.w) {
+        this.x = box.x + box.w + this.r;
+        }
+        
+        if (this.y < box.y) {
+        this.y = box.y - this.r;
+        } else if (this.y > box.y + box.h) {
+        this.y = box.y + box.h + this.r;
+        }
+        }
 }
 
 class terrain {
@@ -134,30 +149,5 @@ class Boss {
         ellipse(this.x, this.y, this.x / 4, this.y / 4);
     }
 
-    hits(player) {
-        // Radius of the player's circle
-        const playerRadius = 16; // half of the player's diameter (32)
     
-        // Check if the player's right side is beyond the obstacle's left side
-        const playerRight = player.x + playerRadius;
-        const obstacleLeft = this.x;
-    
-        // Check if the player's left side is before the obstacle's right side
-        const playerLeft = player.x - playerRadius;
-        const obstacleRight = this.x + this.w;
-    
-        // Check if the player's bottom side is below the obstacle's top side
-        const playerBottom = player.y + playerRadius;
-        const obstacleTop = this.y;
-    
-        const obstacleBottom = this.y + this.h;
-        const playerTop = player.y - playerRadius;
-    
-        // Only check vertically because obstacles are at the bottom of the screen
-    
-        const collisionHorizontally = playerRight > obstacleLeft && playerLeft < obstacleRight;
-        const collisionVertically = playerBottom > obstacleTop && playerTop < obstacleBottom;
-    
-        return collisionHorizontally && collisionVertically;
-      }
 }
