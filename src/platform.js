@@ -33,6 +33,13 @@ function draw() {
     } else {
         text("game over", 300, 200)
     }
+
+    for(var i=0; i < terrains.length; i++){
+        if(playerRectCollision(player,terrains[i])){
+            handleCollision(terrains[i]);
+    }
+    }
+    
 }
 
 function drawObs() {
@@ -74,6 +81,7 @@ class Player {
         this.gravity = 0.45;
         this.lift = -10;
         this.velocity = 0;
+        this.r = 16;
     }
     display() {
         fill(255);
@@ -107,11 +115,11 @@ class Player {
 
 
     handleCollision(box) {
-        if (this.x < box.x) {
-        this.x = box.x - this.r;
-        } else if (this.x > box.x + box.w) {
-        this.x = box.x + box.w + this.r;
-        }
+        // if (this.x < box.x) {
+        // this.x = box.x - this.r;
+        // } else if (this.x > box.x + box.w) {
+        // this.x = box.x + box.w + this.r;
+        // }
         
         if (this.y < box.y) {
         this.y = box.y - this.r;
@@ -151,3 +159,18 @@ class Boss {
 
     
 }
+
+function playerRectCollision(player, rect) {
+    let distX = abs(player.x - rect.x - rect.w / 2);
+    let distY = abs(player.y - rect.y - rect.h / 2);
+    
+    if (distX > (rect.w / 2 + player.r)) { return false; }
+    if (distY > (rect.h / 2 + player.r)) { return false; }
+    
+    if (distX <= (rect.w / 2)) { return true; }
+    if (distY <= (rect.h / 2)) { return true; }
+    
+    let dx = distX - rect.w / 2;
+    let dy = distY - rect.h / 2;
+    return (dx * dx + dy * dy <= (player.r * player.r));
+    }
