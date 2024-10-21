@@ -6,39 +6,76 @@ let reload;
 let touchj = 0;
 let terrain1;
 let boss;
-let terrainPos = [[100, 350], [400, 350]];
+let terrainPos = [[250, 175], [400, 300], [50, 250]];
+let obsticleArray = []
 
 function setup() {
     createCanvas(800, 400);
     player = new Player();
     frameRate(120);
-    boss = new Boss(700, 300);
+    boss = new Boss(700, 200);
     for (var i = 0; i < terrainPos.length; i++) {
-        terrains.push(new terrain(terrainPos[i][0], terrainPos[i][1]));
+        terrains.push(new terrain(terrainPos[i][0], terrainPos[i][1], terrainPos[i][2]));
+
     }
+    obsticle = new Obsticle(700, 300);
 }
 
 function draw() {
+    // console.log(player.getPlayerY())
+    if (player.getPlayerY() == 400 && gameOver == false) {
+        gameOver = true;
+        buttonspawn();
+    }
     if (!gameOver) {
         background(5);
         player.move();
         player.display();
         drawObs();
         boss.display();
+        
 
         textSize(32);
         fill(255);
         text("score: " + score, 10, 30);
+        if (frameCount % 100 == 0) {
+            obsticleArray.push(new Obsticle(300, random(50, 700)));
+        }
+        for (let i = 0; i < obsticleArray.length; i++) {
+            obsticleArray[i].display();
+            obsticleArray[i].move();
+            if (obsticleArray[i].hits(player)) {
+                gameOver = true
+                console.log("HIT");
+                buttonspawn();
+                continue;
+            }
+            // if (obsticleArray[i].offscreen()) {
+            //     obsticleArray.splice(i, 1);
+            //     console.log("passed obsticle")
+            //     if (obsticleArray.length % 2 == 0) {
+            //         score++;
+            //         console.log(score)
+
+            // //     }
+            // }
+        }
     } else {
         textSize(32);
         fill(255);
         text("game over", 300, 200);
     }
 
+    let touching = false;
+
     for (var i = 0; i < terrains.length; i++) {
         if (circleRectCollision(player, terrains[i])) {
             player.handleCollision(terrains[i]);
+            touching = true;
         }
+    }
+    if (!touching) {
+        player.touchfalse()
     }
 }
 
@@ -55,9 +92,11 @@ function restart() {
     if (reload) {
         reload.remove();
     }
+    setup();
 }
 
 function buttonspawn() {
+    console.log("gameover")
     reload = createButton("Restart");
     reload.position(windowWidth / 2 - reload.elt.offsetWidth, windowHeight / 2);
     reload.mousePressed(restart);
@@ -69,9 +108,6 @@ function keyPressed() {
     }
 }
 
-function mousePressed() {
-    player.up();
-}
 
 class Player {
     constructor() {
@@ -82,6 +118,19 @@ class Player {
         this.velocityX = 0;
         this.velocityY = 0;
         this.r = 16;
+        this.touch = false;
+    }
+
+    setPlayerY(y) {
+        this.y = y;
+    }
+
+    touchfalse() {
+        this.touch = false;
+    }
+
+    getPlayerY() {
+        return (this.y);
     }
 
     display() {
@@ -111,6 +160,7 @@ class Player {
         this.x = constrain(this.x, 0, width);
         this.y = constrain(this.y, 0, height);
 
+
         // If player hits the bottom or top of the canvas
         if (this.y === height) {
             this.velocityY = 0;
@@ -121,10 +171,15 @@ class Player {
     }
 
     up() {
-        this.velocityY += this.lift;
+        console.log(this.touch);
+        if (this.touch) {
+            this.velocityY += this.lift;
+            console.log("touch");
+        }
     }
 
     handleCollision(rect) {
+        this.touch = true;
         // Find the closest point on the rectangle to the circle's center
         let closestX = constrain(this.x, rect.x, rect.x + rect.w);
         let closestY = constrain(this.y, rect.y, rect.y + rect.h);
@@ -181,7 +236,7 @@ class Boss {
 
     display() {
         fill(255);
-        ellipse(this.x, this.y, this.x / 4, this.y / 4);
+        ellipse(this.x, this.y, this.w, this.h);
     }
 }
 
@@ -199,3 +254,56 @@ function circleRectCollision(circle, rect) {
 
     return distanceSquared < (circle.r * circle.r);
 }
+
+class Obsticle {
+    constructor(x, y) {
+        this.w = 70;
+        this.h = 10;
+        this.x = x;
+        this.y = y;
+        this.speed = 7;
+
+    }
+    display() {
+        fill(255);
+        rect(this.x, this.y, this.w, this.h);
+    }
+
+    move() {
+        this.x -= this.speed;
+    }
+
+    hits(player) {
+        // Radius of the player's circle
+        const playerRadius = 16; // half of the player's diameter (32)
+
+        // Check if the player's right side is beyond the obstacle's left side
+        const playerRight = player.x + playerRadius;
+        const obstacleLeft = this.x;
+
+        // Check if the player's left side is before the obstacle's right side
+        const playerLeft = player.x - playerRadius;
+        const obstacleRight = this.x + this.w;
+
+        // Check if the player's bottom side is below the obstacle's top side
+        const playerBottom = player.y + playerRadius;
+        const obstacleTop = this.y;
+
+        const obstacleBottom = this.y + this.h;
+        const playerTop = player.y - playerRadius;
+
+        // Only check vertically because obstacles are at the bottom of the screen
+
+        const collisionHorizontally = playerRight > obstacleLeft && playerLeft < obstacleRight;
+        const collisionVertically = playerBottom > obstacleTop && playerTop < obstacleBottom;
+
+        return collisionHorizontally && collisionVertically;
+    }
+
+    offscreen() {
+        return this.x < this.w;
+      }
+
+}
+
+
