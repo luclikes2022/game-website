@@ -6,7 +6,7 @@ let reload;
 let touchj = 0;
 let terrain1;
 let boss;
-let terrainPos = [[250, 175], [400, 300], [50, 250]];
+let terrainPos = [[250, 200], [400, 300], [50, 250]];
 let obsticleArray = []
 
 function setup() {
@@ -33,13 +33,17 @@ function draw() {
         player.display();
         drawObs();
         boss.display();
-        
+        boss.move();
+
+
 
         textSize(32);
         fill(255);
         text("score: " + score, 10, 30);
         if (frameCount % 100 == 0) {
-            obsticleArray.push(new Obsticle(300, random(50, 700)));
+            obsticleArray.push(new Obsticle(700, random(50, 300)));
+            obsticleArray.push(new Obsticle(700, random(50, 300)));
+            obsticleArray.push(new Obsticle(700, random(50, 300)));
         }
         for (let i = 0; i < obsticleArray.length; i++) {
             obsticleArray[i].display();
@@ -50,20 +54,21 @@ function draw() {
                 buttonspawn();
                 continue;
             }
-            // if (obsticleArray[i].offscreen()) {
-            //     obsticleArray.splice(i, 1);
-            //     console.log("passed obsticle")
-            //     if (obsticleArray.length % 2 == 0) {
-            //         score++;
-            //         console.log(score)
+            if (obsticleArray[i].offscreen()) {
+                obsticleArray.splice(i, 1);
+                console.log("passed obsticle")
+                if (obsticleArray.length % 2 == 0) {
+                    score++;
+                    console.log(score)
 
-            // //     }
-            // }
+                }
+            }
         }
     } else {
         textSize(32);
         fill(255);
         text("game over", 300, 200);
+
     }
 
     let touching = false;
@@ -89,6 +94,7 @@ function restart() {
     score = 0;
     terrains = [];
     gameOver = false;
+    obsticleArray = []
     if (reload) {
         reload.remove();
     }
@@ -214,7 +220,7 @@ class Player {
 
 class terrain {
     constructor(x, y) {
-        this.w = random(20, 200);
+        this.w = random(50, 200);
         this.h = 15;
         this.x = x;
         this.y = y;
@@ -232,6 +238,16 @@ class Boss {
         this.h = 30;
         this.x = x;
         this.y = y;
+        this.speed = 5;
+    }
+
+    move() {
+        if (this.x - this.w / 2 <= 0) {
+            this.speed = 5;
+        } else if (this.x + this.width / 2 >= 800) {
+            this.speed = -5;
+        }
+        this.x -= this.speed;
     }
 
     display() {
@@ -258,7 +274,7 @@ function circleRectCollision(circle, rect) {
 class Obsticle {
     constructor(x, y) {
         this.w = 70;
-        this.h = 10;
+        this.h = 30;
         this.x = x;
         this.y = y;
         this.speed = 7;
@@ -302,7 +318,7 @@ class Obsticle {
 
     offscreen() {
         return this.x < this.w;
-      }
+    }
 
 }
 
