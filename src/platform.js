@@ -8,6 +8,7 @@ let terrain1;
 let boss;
 let terrainPos = [[250, 200], [400, 300], [50, 250]];
 let obsticleArray = []
+let cooldown = false;
 
 function setup() {
     createCanvas(800, 400);
@@ -35,15 +36,19 @@ function draw() {
         boss.display();
         boss.move();
 
+        if (boss.hits(player)){
+            console.log("lollol");
+            boss.reverse()
 
+        }
 
         textSize(32);
         fill(255);
         text("score: " + score, 10, 30);
         if (frameCount % 100 == 0) {
-            obsticleArray.push(new Obsticle(700, random(50, 300)));
-            obsticleArray.push(new Obsticle(700, random(50, 300)));
-            obsticleArray.push(new Obsticle(700, random(50, 300)));
+            // obsticleArray.push(new Obsticle(700, random(50, 300)));
+            // obsticleArray.push(new Obsticle(700, random(50, 300)));
+            // obsticleArray.push(new Obsticle(700, random(50, 300)));
         }
         for (let i = 0; i < obsticleArray.length; i++) {
             obsticleArray[i].display();
@@ -234,26 +239,82 @@ class terrain {
 
 class Boss {
     constructor(x, y) {
-        this.w = 50;
-        this.h = 30;
+        this.w = 200;
+        this.h = 200;
         this.x = x;
         this.y = y;
         this.speed = 5;
+        this.speedY = 5;
+        this.bolean = false;
+    }
+
+    reverse(){
+        this.speed *= -1;
+        this.speedY *= -1;
     }
 
     move() {
         if (this.x - this.w / 2 <= 0) {
-            this.speed = 5;
-        } else if (this.x + this.width / 2 >= 800) {
-            this.speed = -5;
+            this.speed = random(1,7);
+        } else if (this.x + this.w / 2 >= 800) {
+            this.speed = random(1,-7);
         }
-        this.x -= this.speed;
+        this.x += this.speed;
+
+        if (this.y - this.h / 2 <= 0) {
+            this.speedY = random(1,7);
+        } else if (this.y + this.h / 2 >= 400) {
+            this.speedY = random(-1,-7);
+        }
+        this.y += this.speedY;
     }
 
     display() {
         fill(255);
+        if(this.bolean){
+            this.w += 1; 
+            this.h+= 1;
+        }else{
+            this.w -= 1;
+            this.h -= 1;
+        }
+
+        if(this.w >= 130 || this.h >= 130){
+            this.bolean = false;
+        }else if(this.w <= 30 || this.h <= 30){
+            this.bolean = true;
+        }
+        
         ellipse(this.x, this.y, this.w, this.h);
     }
+
+    hits(player) {
+        // Radius of the player's circle
+        const playerRadius = 16; // half of the player's diameter (32)
+
+        // Check if the player's right side is beyond the obstacle's left side
+        const playerRight = player.x + playerRadius;
+        const obstacleLeft = this.x;
+
+        // Check if the player's left side is before the obstacle's right side
+        const playerLeft = player.x - playerRadius;
+        const obstacleRight = this.x + this.w;
+
+        // Check if the player's bottom side is below the obstacle's top side
+        const playerBottom = player.y + playerRadius;
+        const obstacleTop = this.y;
+
+        const obstacleBottom = this.y + this.h;
+        const playerTop = player.y - playerRadius;
+
+        // Only check vertically because obstacles are at the bottom of the screen
+
+        const collisionHorizontally = playerRight > obstacleLeft && playerLeft < obstacleRight;
+        const collisionVertically = playerBottom > obstacleTop && playerTop < obstacleBottom;
+
+        return collisionHorizontally && collisionVertically;
+    }
+    
 }
 
 function circleRectCollision(circle, rect) {
