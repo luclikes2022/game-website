@@ -248,73 +248,85 @@ class Boss {
         this.bolean = false;
     }
 
-    reverse(){
+    reverse() {
         this.speed *= -1;
         this.speedY *= -1;
     }
 
     move() {
+        // Bounce off the left and right edges
         if (this.x - this.w / 2 <= 0) {
-            this.speed = random(1,7);
-        } else if (this.x + this.w / 2 >= 800) {
-            this.speed = random(1,-7);
+            this.speed = abs(this.speed); // Ensure speed is positive
+        } else if (this.x + this.w / 2 >= width) {
+            this.speed = -abs(this.speed); // Ensure speed is negative
         }
         this.x += this.speed;
 
+        // Bounce off the top and bottom edges
         if (this.y - this.h / 2 <= 0) {
-            this.speedY = random(1,7);
-        } else if (this.y + this.h / 2 >= 400) {
-            this.speedY = random(-1,-7);
+            this.speedY = abs(this.speedY); // Ensure speedY is positive
+        } else if (this.y + this.h / 2 >= height) {
+            this.speedY = -abs(this.speedY); // Ensure speedY is negative
         }
         this.y += this.speedY;
     }
 
     display() {
         fill(255);
-        if(this.bolean){
+        ellipse(this.x, this.y, this.w, this.h);
+
+        // Handle size oscillation
+        if (this.bolean) {
             this.w += 1; 
-            this.h+= 1;
-        }else{
+            this.h += 1;
+        } else {
             this.w -= 1;
             this.h -= 1;
         }
 
-        if(this.w >= 130 || this.h >= 130){
+        // Clamp size to prevent excessive growth or shrinkage
+        this.w = constrain(this.w, 30, 130);
+        this.h = constrain(this.h, 30, 130);
+
+        // Toggle oscillation flag based on size
+        if (this.w >= 130 || this.h >= 130) {
             this.bolean = false;
-        }else if(this.w <= 30 || this.h <= 30){
+        } else if (this.w <= 30 || this.h <= 30) {
             this.bolean = true;
         }
-        
-        ellipse(this.x, this.y, this.w, this.h);
     }
 
     hits(player) {
-        // Radius of the player's circle
-        const playerRadius = 16; // half of the player's diameter (32)
+        // Player's properties
+        const playerRadius = player.r;
+        const dx = player.x - this.x;
+        const dy = player.y - this.y;
+        const distance = sqrt(dx * dx + dy * dy);
+        const bossRadius = (this.w + this.h) / 4;
 
-        // Check if the player's right side is beyond the obstacle's left side
-        const playerRight = player.x + playerRadius;
-        const obstacleLeft = this.x;
+        if (distance < (playerRadius + bossRadius)) {
+            if (abs(dx) > abs(dy)) {
+                this.speed *= -1;
+                if (dx > 0) {
+                    this.x = player.x + playerRadius + bossRadius;
+                } else {
+                    this.x = player.x - playerRadius - bossRadius;
+                }
+            } else {
+                this.speedY *= -1;
 
-        // Check if the player's left side is before the obstacle's right side
-        const playerLeft = player.x - playerRadius;
-        const obstacleRight = this.x + this.w;
+                if (dy > 0) {
+                    this.y = player.y + playerRadius + bossRadius;
+                } else {
+                    this.y = player.y - playerRadius - bossRadius;
+                }
+            }
 
-        // Check if the player's bottom side is below the obstacle's top side
-        const playerBottom = player.y + playerRadius;
-        const obstacleTop = this.y;
+            return true;
+        }
 
-        const obstacleBottom = this.y + this.h;
-        const playerTop = player.y - playerRadius;
-
-        // Only check vertically because obstacles are at the bottom of the screen
-
-        const collisionHorizontally = playerRight > obstacleLeft && playerLeft < obstacleRight;
-        const collisionVertically = playerBottom > obstacleTop && playerTop < obstacleBottom;
-
-        return collisionHorizontally && collisionVertically;
+        return false;
     }
-    
 }
 
 function circleRectCollision(circle, rect) {
