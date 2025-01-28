@@ -6,47 +6,14 @@ let reload;
 let touchj = 0;
 function setup() {
   createCanvas(800, 400);
-  player = new Player();
+  player = new Player(400, 200);
   frameRate(120)
 }
 
 function draw() {
-  if (gameOver == false) {
-    background(5);
-    player.display();
-    fill(0);
-    clicktap();
-    // keyPress();
-    player.move();
-    if (frameCount % 100 == 0) {
-      let x = width
-      obsticals.push(new Obstical(false, x));
-      obsticals.push(new Obstical(true, x));
-    }
-    for (let i = 0; i < obsticals.length; i++) {
-      obsticals[i].display();
-      obsticals[i].move();
-      if (obsticals[i].hits(player)) {
-        gameOver = true
-        console.log("HIT");
-        buttonspawn();
-        continue;
-      }
-      if (obsticals[i].offscreen()) {
-        obsticals.splice(i, 1);
-        console.log("passed obsticle")
-        if (obsticals.length % 2 == 0) {
-          score++;
-          console.log(score)
-
-        }
-      }
-    }
-    textSize(32);
-    text("score: " + (score), 10, 30)
-  } else {
-    text("game over", 300, 200)
-  }
+  background(0, 255, 212);
+  player.update();
+  player.display();
 }
 
 function clicktap() {
@@ -76,42 +43,68 @@ function buttonspawn() {
 }
 
 function keyPressed() {
-  if (key == " ") {
-    player.up();
 
+  if (key == "A") {
+    player.setRotation(-5);
+  } else if (key == "D") {
+    player.setRotation(5);
+  } else {
+    player.setRotation(0);
   }
+
+  if (key == " ") {
+    player.boost(true);
+  } else {
+    player.boost(false);
+  }
+
 }
 function mousePressed() {
   player.up();
 }
 
 class Player {
-  constructor() {
-    this.x = 50;
-    this.y = height / 2;
-    this.gravity = 0.45;
-    this.lift = -10;
-    this.velocity = 0;
+  constructor(x, y) {
+    this.x = x;
+    this.y = y;
+    this.r = 15; // Radius of the ship 
+    this.heading = 0; // Ship's facing angle (in degrees) 
+    this.rotation = 0; // Rotation speed 
+    this.dx = 0; // Velocity in x 
+    this.dy = 0; // Velocity in y 
+    this.isThrusting = false;
+
   }
   display() {
-    fill(142,97,213);
-    ellipse(this.x, this.y, 32, 32);
+    fill(142, 97, 213);
+    translate(this.x, this.y);
+    rotate(radians(this.heading + 90));
+    triangle(-this.r, this.r, this.r, this.r, 0, -this.r);
   }
-  move() {
-    this.velocity += this.gravity;
-    this.y += this.velocity;
-    this.y = constrain(this.y, 0, height);
-    if (this.y == height) {
-      this.velocity = 0;
-    }
-    if (this.y == 0) {
-      this.velocity *= (-0.5)
-    }
+  thrust() {
+    let angle = radians(this.heading);
+    let forceX = cos(angle) * 0.1;
+    let forceY = sin(angle) * 0.1;
+    this.dx += forceX;
+    this.dy += forceY;
   }
-  up() {
-    this.velocity += this.lift;
-    console.log("press")
-    console.log(this.velocity) 
+  setRotation(angle) {
+    this.rotation = angle;
+  }
+  boost(x) {
+    this.isThrusting = x;
+  }
+  update() {
+    this.heading += this.rotation;
+    if (this.isThrusting == true) {
+      this.thrust();
+
+    }
+    this.x += this.dx;
+    this.y += this.dy;
+    this.dx *= 0.97;
+    this.dy *= 0.97;
+
   }
 }
 
@@ -129,7 +122,7 @@ class Obstical {
     }
   }
   display() {
-    fill(18,277,215);
+    fill(18, 277, 215);
     rect(this.x, this.y, this.w, this.h);
   }
   move() {
@@ -166,4 +159,3 @@ class Obstical {
     return this.x < this.w;
   }
 }
-

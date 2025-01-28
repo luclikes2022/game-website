@@ -1,6 +1,7 @@
 let player;
 let terrains = [];
 let score = 0;
+let lives = 3;
 let gameOver = false;
 let reload;
 let touchj = 0;
@@ -9,6 +10,7 @@ let boss;
 let terrainPos = [[250, 200], [400, 300], [50, 250]];
 let obsticleArray = []
 let cooldown = false;
+let cooldownLives = 100
 
 function setup() {
     createCanvas(800, 400);
@@ -22,13 +24,16 @@ function setup() {
     obsticle = new Obsticle(700, 300);
 }
 
+
+
 function draw() {
-    // console.log(player.getPlayerY())
-    if (player.getPlayerY() == 400 && gameOver == false) {
-        gameOver = true;
-        buttonspawn();
-    }
+    cooldownLives--;
+
+
+
+
     if (!gameOver) {
+
         background(5);
         player.move();
         player.display();
@@ -36,27 +41,37 @@ function draw() {
         boss.display();
         boss.move();
 
-        if (boss.hits(player)){
-            console.log("lollol");
-            boss.reverse()
+        if (player.getPlayerY() == height) {
+            livesMinus();
+            player.setPlayerY(50);
+            player.setPlayerX(100)
+        }
 
+        if (boss.hits(player)) {
+            console.log("boss hit");
+            livesMinus();
+            boss.reverse();
         }
 
         textSize(32);
         fill(255);
-        text("score: " + score, 10, 30);
+        text("You have " + lives + " lives.", 10, 60);
+        text("Your score is " + score, 10, 30);
+
         if (frameCount % 100 == 0) {
             // obsticleArray.push(new Obsticle(700, random(50, 300)));
-            // obsticleArray.push(new Obsticle(700, random(50, 300)));
-            // obsticleArray.push(new Obsticle(700, random(50, 300)));
+            obsticleArray.push(new Obsticle(700, random(50, 300)));
+            obsticleArray.push(new Obsticle(700, random(50, 300)));
         }
         for (let i = 0; i < obsticleArray.length; i++) {
             obsticleArray[i].display();
             obsticleArray[i].move();
-            if (obsticleArray[i].hits(player)) {
-                gameOver = true
+            if (obsticleArray[i].hits(player) && cooldownLives <= 0) {
+                livesMinus();
+
+
                 console.log("HIT");
-                buttonspawn();
+
                 continue;
             }
             if (obsticleArray[i].offscreen()) {
@@ -64,16 +79,33 @@ function draw() {
                 console.log("passed obsticle")
                 if (obsticleArray.length % 2 == 0) {
                     score++;
-                    console.log(score)
+                    console.log(score);
 
                 }
+            }
+            if (lives <= 0) {
+                gameOver = true
             }
         }
     } else {
         textSize(32);
         fill(255);
-        text("game over", 300, 200);
+    console.log(reload);
+        if (!reload || reload === undefined) {
+            console.log(reload);
+            buttonspawn();
+        }
 
+
+
+    }
+
+    function livesMinus() {
+        if (cooldownLives <= 0) {
+
+            lives--;
+            cooldownLives = 100
+        }
     }
 
     let touching = false;
@@ -87,7 +119,20 @@ function draw() {
     if (!touching) {
         player.touchfalse()
     }
+
+    if (gameOver == false) {
+        textSize(32);
+        fill(255)
+        text("You are doing great!", 10, 90);
+    } else {
+        textSize(32);
+        fill(255)
+        text("Game over. Sorry!", 10, 90);
+    }
+
 }
+
+
 
 function drawObs() {
     for (let i = 0; i < terrains.length; i++) {
@@ -97,11 +142,15 @@ function drawObs() {
 
 function restart() {
     score = 0;
+    lives = 3;
     terrains = [];
     gameOver = false;
-    obsticleArray = []
+    obsticleArray = [];
     if (reload) {
         reload.remove();
+        reload=false;
+      
+
     }
     setup();
 }
@@ -136,6 +185,10 @@ class Player {
         this.y = y;
     }
 
+    setPlayerX(x) {
+        this.x = x;
+    }
+
     touchfalse() {
         this.touch = false;
     }
@@ -145,7 +198,13 @@ class Player {
     }
 
     display() {
-        fill(255);
+
+
+       
+            fill(50,139,166);
+        
+
+
         ellipse(this.x, this.y, this.r * 2, this.r * 2);
     }
 
@@ -232,7 +291,7 @@ class terrain {
     }
 
     display() {
-        fill(255);
+        fill(142,15,173);
         rect(this.x, this.y, this.w, this.h);
     }
 }
@@ -272,12 +331,12 @@ class Boss {
     }
 
     display() {
-        fill(255);
+        fill(237,142,26);
         ellipse(this.x, this.y, this.w, this.h);
 
         // Handle size oscillation
         if (this.bolean) {
-            this.w += 1; 
+            this.w += 1;
             this.h += 1;
         } else {
             this.w -= 1;
@@ -354,7 +413,7 @@ class Obsticle {
 
     }
     display() {
-        fill(255);
+        fill(245,98,45);
         rect(this.x, this.y, this.w, this.h);
     }
 
