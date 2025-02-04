@@ -1,9 +1,11 @@
 let player;
+let keys = {};
 let obsticals = [];
 let score = 0;
 let gameOver = false;
 let reload;
 let touchj = 0;
+let bulletarray = []
 function setup() {
   createCanvas(800, 400);
   player = new Player(400, 200);
@@ -14,6 +16,41 @@ function draw() {
   background(0, 255, 212);
   player.update();
   player.display();
+  player.boundries();
+  
+
+
+
+  if (keys['a']) {
+    player.setRotation(-3);
+  } else if (keys['d']) {
+
+    player.setRotation(3);
+  } else {
+    player.setRotation(0);
+
+  }
+
+  if (keys['e']) {
+    bulletarray.push(new bullet(player.heading, player.x, player.y)); 
+  }
+
+  if (keys[' ']) {
+    player.boost(true);
+  } else {
+    player.boost(false);
+
+  }
+
+
+
+  for (let i = 0; i < bulletarray.length; i++) {
+    bulletarray[i].display();
+  }
+
+
+
+
 }
 
 function clicktap() {
@@ -42,26 +79,10 @@ function buttonspawn() {
   reload.mousePressed(restart);
 }
 
-function keyPressed() {
+function keyPressed() { keys[key.toLowerCase()] = true; }
 
-  if (key == "A") {
-    player.setRotation(-5);
-  } else if (key == "D") {
-    player.setRotation(5);
-  } else {
-    player.setRotation(0);
-  }
+function keyReleased() { keys[key.toLowerCase()] = false; }
 
-  if (key == " ") {
-    player.boost(true);
-  } else {
-    player.boost(false);
-  }
-
-}
-function mousePressed() {
-  player.up();
-}
 
 class Player {
   constructor(x, y) {
@@ -80,6 +101,13 @@ class Player {
     translate(this.x, this.y);
     rotate(radians(this.heading + 90));
     triangle(-this.r, this.r, this.r, this.r, 0, -this.r);
+    if(this.isThrusting == true){
+      fill(255,109,0,)
+      triangle(-this.r, -this.r + 30, this.r, -this.r + 30, 0, this.r + 15);
+    }
+    if (frameCount % 100 == 0) {
+      console.log(this.heading);
+    }
   }
   thrust() {
     let angle = radians(this.heading);
@@ -89,7 +117,12 @@ class Player {
     this.dy += forceY;
   }
   setRotation(angle) {
-    this.rotation = angle;
+    if (angle == 0) {
+      this.rotation *= 0.95;
+    } else {
+      this.rotation = angle;
+    }
+
   }
   boost(x) {
     this.isThrusting = x;
@@ -100,12 +133,55 @@ class Player {
       this.thrust();
 
     }
+
     this.x += this.dx;
     this.y += this.dy;
     this.dx *= 0.97;
     this.dy *= 0.97;
 
   }
+
+  boundries() {
+    if (this.x >= 801) {
+      this.x = 0;
+    }
+
+    if (this.x <= -1) {
+      this.x = 800;
+    }
+
+    if (this.y >= 401) {
+      this.y = 0;
+    }
+
+    if (this.y <= -1) {
+      this.y = 400;
+    }
+  }
+}
+
+class bullet{
+constructor(heading, Px, Py){
+  this.heading = heading;
+  this.x = Px;
+  this.y = Py;
+  this.lifetime = 360;
+  this.h = 0;
+
+  this.dx = cos(this.heading);
+  this.dy = sin(this.heading);
+
+
+
+}
+display(){
+  fill(0);
+  rect(this.x - 10, this.y, 20, 40);
+  rotate(radians(this.heading + 90));
+  this.heading = -90;
+  this.x += this.dx;
+  this.y += this.dy;
+}
 }
 
 class Obstical {

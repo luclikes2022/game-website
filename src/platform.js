@@ -34,7 +34,7 @@ function draw() {
 
     if (!gameOver) {
 
-        background(5);
+        background(255,122,100);
         player.move();
         player.display();
         drawObs();
