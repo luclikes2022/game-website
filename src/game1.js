@@ -12,7 +12,7 @@ function setup() {
 
 function draw() {
   if (gameOver == false) {
-    background(5);
+    background(173,216,230);
     player.display();
     fill(0);
     clicktap();
@@ -129,7 +129,7 @@ class Obstical {
     }
   }
   display() {
-    fill(18,277,215);
+    fill(90,30,5);
     rect(this.x, this.y, this.w, this.h);
   }
   move() {

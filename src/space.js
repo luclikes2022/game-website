@@ -13,7 +13,7 @@ function setup() {
 }
 
 function draw() {
-  background(0, 255, 212);
+  background(5);
   player.update();
   player.display();
   player.boundries();
@@ -175,7 +175,7 @@ constructor(heading, Px, Py){
 
 }
 display(){
-  fill(0);
+  fill(125,218,88);
   rect(this.x - 10, this.y, 20, 40);
   rotate(radians(this.heading + 90));
   this.heading = -90;

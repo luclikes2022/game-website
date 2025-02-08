@@ -7,7 +7,7 @@ html {
 }
 
 
-.info-container {
+.abt-website {
 
   background-color: #3B51C4;
   padding: 20px;
@@ -16,12 +16,21 @@ html {
   padding-top: 5px;
 }
 
-.types_of_games {
+.updates {
   background-color: #844EB1;
+  padding: 20px;
+  border-radius: 25px;
+  padding-top: 5px;
+
+}
+
+.whats-next {
+  margin-top: 25px;
+  background-color: #bd1962;
   padding: 20px;
   border-radius: 20px;
   padding-top: 5px;
-  padding-bottom: 10px
+ 
 }
 
 
@@ -33,7 +42,7 @@ html {
   text-align: center;
   padding-top: 3em;
   padding-bottom: 3em;
-  margin-top: 60px;
+  margin-top: 0px;
   width: 100%;
   background-color: darkcyan
 }
@@ -67,7 +76,11 @@ html {
 }
 
 .indexH1 {
-  margin-left: 46%
+  text-align: center;
+}
+
+.indexH2 {
+  text-align: center;
 }
 
 nav {
@@ -137,6 +150,12 @@ nav ul li a:hover {
 .game1 {
   background-color: lightblue;
   text-align:center;
+}
+
+.space {
+  background-color:black;
+  text-align:center;
+  color:white
 }
 
 .game_image {
@@ -252,3 +271,4 @@ height:800%;
   height: 450px;
   width: 850px
 }
+
