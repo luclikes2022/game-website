@@ -11,7 +11,8 @@
   <link href="https://fonts.googleapis.com/css2?family=M+PLUS+1+Code:wght@100..700&display=swap" rel="stylesheet">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width">
-  <link rel = "icon" href="https://media.istockphoto.com/id/1392898737/vector/abstract-horizontal-background-with-colorful-waves.jpg?s=612x612&w=0&k=20&c=xxRagBOWElqfzxPho893QoNmB1HnAw9VM-UHkQhtih4=">
+  <link rel="icon"
+    href="https://media.istockphoto.com/id/1392898737/vector/abstract-horizontal-background-with-colorful-waves.jpg?s=612x612&w=0&k=20&c=xxRagBOWElqfzxPho893QoNmB1HnAw9VM-UHkQhtih4=">
   <title>Lucas's First Website</title>
   <link href="./style.css" rel="stylesheet" type="text/css" />
 </head>
@@ -38,15 +39,51 @@
   </nav>
   <h1 class="indexH1">Home</h1>
   <h2 class="indexH2">Game Website</h2>
-  <h2 class="indexH2">Total visits: Coming soon!</h2>
+  <h2 class="indexH2" id = "total-count">Total visits: Coming soon!</h2>
 
 
   <div class="home_image">
     <img
       src="https://media.istockphoto.com/id/1392898737/vector/abstract-horizontal-background-with-colorful-waves.jpg?s=612x612&w=0&k=20&c=xxRagBOWElqfzxPho893QoNmB1HnAw9VM-UHkQhtih4=">
   </div>
+  <script src="https://www.gstatic.com/firebasejs/11.3.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/11.3.0/firebase-database.js"></script>
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyBx9DAV6B_yU9-WYsndjWgFKZ0yRL4bwms",
+      authDomain: "first-website-db006.firebaseapp.com",
+      databaseURL: "https://first-website-db006-default-rtdb.firebaseio.com",
+      projectId: "first-website-db006",
+      storageBucket: "first-website-db006.firebasestorage.app",
+      messagingSenderId: "1085891243330",
+      appId: "1:1085891243330:web:f3bb9cba88171fb3ffecdb"
+    };
 
 
+    const app = firebase.initializeApp(firebaseConfig);
+    const database = firebase.database();
+    const visitRef = database.ref('visits');
+    function increment(){
+      visitRef.transaction(curCount => {
+        return (curCount || 0) + 1;
+      });
+    }
+
+    function displayCounter(){
+      visitRef.on('value', snapshot => {
+        const count = snapshot.val || 0;
+        document.getElementById('total-count').innerText = '${total-count}';
+      });
+    }
+
+    window.onload = () => {
+      increment();
+      displaycounter();
+    }
+
+
+
+  </script>
 </body>
 
 </html>
