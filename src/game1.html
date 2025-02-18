@@ -38,6 +38,41 @@
   </nav>
   <h1 class="game1Text">Game 1: ball jump</h1>
 
+<!-- <script type="module">const firebaseConfig = {
+  apiKey: "AIzaSyBx9DAV6B_yU9-WYsndjWgFKZ0yRL4bwms",
+  authDomain: "first-website-db006.firebaseapp.com",
+  databaseURL: "https://first-website-db006-default-rtdb.firebaseio.com",
+  projectId: "first-website-db006",
+  storageBucket: "first-website-db006.firebasestorage.app",
+  messagingSenderId: "1085891243330",
+  appId: "1:1085891243330:web:815ce742ee1d11dcffecdb",
+  measurementId: "G-DPRS0KJWYW"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app);
+const visitRef = ref(database, 'visits');
+    function increment() {
+      runTransaction(visitRef, curCount => {
+        return (curCount || 0) + 1;
+      });
+    }
+
+    function displayCounter() {
+      onValue(visitRef, snapshot => {
+        const count = snapshot.val() || 0;
+        document.getElementById('total-count').innerText = `Total Visits: ${count}`;
+      });
+    }
+
+    window.onload = () => {
+      increment();
+      displayCounter();
+    }</script> -->
+
+
+
 
   <script src="./game1.js"></script>
   <h2>Press space or click the mouse to jump. Avoid the brown pillars. High score: 150

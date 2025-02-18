@@ -39,7 +39,7 @@
   </nav>
   <h1 class="indexH1">Home</h1>
   <h2 class="indexH2">Game Website</h2>
-  <h2 class="indexH2" id = "total-count">Total visi!</h2>
+  <h2 class="indexH2" id="total-count">Total visits: Coming soon!</h2>
 
 
   <div class="home_image">
@@ -48,10 +48,10 @@
   </div>
   <!-- <script src="https://www.gstatic.com/firebasejs/11.3.0/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/11.3.0/firebase-database.js"></script> -->
-  <script type = "module">
+  <script type="module">
 
-import { initializeApp } from "https://www.gstatic.com/firebasejs/11.3.0/firebase-app.js";
-import { getDatabase, ref, onValue, runTransaction } from "https://www.gstatic.com/firebasejs/11.3.0/firebase-database.js";
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.3.0/firebase-app.js";
+    import { getDatabase, ref, onValue, runTransaction } from "https://www.gstatic.com/firebasejs/11.3.0/firebase-database.js";
 
 
     const firebaseConfig = {
@@ -68,13 +68,13 @@ import { getDatabase, ref, onValue, runTransaction } from "https://www.gstatic.c
     const app = initializeApp(firebaseConfig);
     const database = getDatabase();
     const visitRef = ref(database, 'visits');
-    function increment(){
+    function increment() {
       runTransaction(visitRef, curCount => {
         return (curCount || 0) + 1;
       });
     }
 
-    function displayCounter(){
+    function displayCounter() {
       onValue(visitRef, snapshot => {
         const count = snapshot.val() || 0;
         document.getElementById('total-count').innerText = `Total Visits: ${count}`;

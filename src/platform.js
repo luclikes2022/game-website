@@ -57,6 +57,7 @@ function draw() {
         fill(255);
         text("You have " + lives + " lives.", 10, 60);
         text("Your score is " + score, 10, 30);
+        
 
         if (frameCount % 100 == 0) {
             // obsticleArray.push(new Obsticle(700, random(50, 300)));
@@ -82,6 +83,10 @@ function draw() {
                     console.log(score);
 
                 }
+
+
+
+    
             }
             if (lives <= 0) {
                 gameOver = true
