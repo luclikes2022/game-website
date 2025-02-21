@@ -29,7 +29,7 @@
           <a href="./game1.html">Ball Jump</a>
           <a href="platform.html">PLATFORMER!</a>
           <a href="space.html">Space shooter</a>
-          <a>Game Type 4</a>
+          <a href="pong.html">Pong game</a>
 
 
         </div>
@@ -39,7 +39,7 @@
   </nav>
   <h1 class="indexH1">Home</h1>
   <h2 class="indexH2">Game Website</h2>
-  <h2 class="indexH2" id="total-count">Total visits: Coming soon!</h2>
+  <h2 class="indexH2" id="total-count">...</h2>
 
 
   <div class="home_image">
@@ -55,7 +55,8 @@
 
 
     const firebaseConfig = {
-      apiKey: "AIzaSyBx9DAV6B_yU9-WYsndjWgFKZ0yRL4bwms",
+
+      apiKey: import.meta.env.API_TOTAL_VIS,
       authDomain: "first-website-db006.firebaseapp.com",
       databaseURL: "https://first-website-db006-default-rtdb.firebaseio.com",
       projectId: "first-website-db006",
@@ -81,11 +82,18 @@
       });
     }
 
-    window.onload = () => {
-      increment();
-      displayCounter();
+    function tracker() {
+      const visitorKey = "visited";
+      if (!localStorage.getItem(visitorKey)) {
+        increment();
+        localStorage.setItem(visitorKey, "true");
+      }
     }
 
+    window.onload = () => {
+      tracker();
+      displayCounter();
+    }
 
 
   </script>
