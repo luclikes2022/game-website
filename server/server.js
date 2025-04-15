@@ -1,4 +1,4 @@
-const express = require('express');
+
 const fs = require('express');
 const app = express();
 const port = 3000
@@ -6,7 +6,7 @@ const port = 3000
 app.use(express.static('public'));
 
 app.get('/api/views', (req, res)=>{
-    fs.readfile('visits.txt', 'utf8', (err, data)=>{
+    fs.readFile('visits.txt', 'utf8', (err, data)=>{
         if (err){
             return res.status(500).json({error:'File cannot be opened'});
         }
@@ -16,13 +16,13 @@ app.get('/api/views', (req, res)=>{
 });
 
 app.post('/api/views', (req, res)=>{
-    fs.readfile('visits.txt', 'utf8', (err, data)=>{
+    fs.readFile('visits.txt', 'utf8', (err, data)=>{
         if (err){
             return res.status(500).json({error:'File cannot be opened'});
         }
         let views = parseInt(data) || 0;
         views++;
-        fs.writefile('visits.txt', views.toString(), (err)=>{
+        fs.writeFile('visits.txt', views.toString(), (err)=>{
             if (err){
                 return res.status(500).json({error:'File cannot be changed'});
             }
