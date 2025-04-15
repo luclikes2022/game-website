@@ -30,7 +30,7 @@ html {
   padding: 20px;
   border-radius: 20px;
   padding-top: 5px;
- 
+
 }
 
 
@@ -47,20 +47,20 @@ html {
   background-color: darkcyan
 }
 
-.platform{
+.platform {
   background-color: #218838;
   text-align: center;
-  align-items:center;
+  align-items: center;
 }
 
 
 
-.codd{
+.codd {
   display: flex;
   flex-direction: column;
   align-items: center;
   align-items: center;
-      
+
 }
 
 
@@ -90,7 +90,24 @@ html {
   text-align: center;
 }
 
+/* 
+@keyframes slide {
+  from {
+    transform: translateX(-20);
+  }
+
+  to {
+    transform: translateX(20);
+  }
+} */
+
+
 .indexH1 {
+  /* animation-name: slide; */
+  animation-name: slide;
+  animation-duration: 1s;
+  animation-iteration-count: infinite;
+  animation-fill-mode: both;
   text-align: center;
 }
 
@@ -103,44 +120,56 @@ nav {
   margin: 0;
   padding: 0;
 
+
 }
 
 nav ul {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  background-color: darkgray;
-  overflow: hidden;
+  margin:0px;
   text-align: center;
+  background-color: darkgray;
 }
 
 nav ul li {
   display: inline-block;
+  
+  
 }
 
 nav ul li a {
   display: block;
   padding: 10px 20px;
   font-size: 1.2em;
-  color: white;
+  color: rgb(0, 0, 0);
   text-decoration: none;
+  background-color: darkgray;
+  transition-property: transform, background-color, color;
+  transition-duration: 0.5s;
+  transition-timing-function: ease;
+
 }
 
 nav ul li a:hover {
+  transition-property: transform, background-color, color;
+  transition-duration: 0.5s;
+  transition-timing-function: ease;
   background-color: black;
+  color: rgb(255, 255, 255);
 
 }
 
 .nav-links li a:hover,
 .dropdown-games:hover .games_button {
-  background-color: black;
+
+  transform: translateY(+10px);
+
 }
 
 .dropdown-games {
+
   display: none;
   position: absolute;
   min-width: 180px;
-  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.3);
+  /* box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.3); */
   z-index: 1;
 }
 
@@ -164,20 +193,20 @@ nav ul li a:hover {
 
 .game1 {
   background-color: lightblue;
-  text-align:center;
+  text-align: center;
 }
 
 .space {
-  background-color:black;
-  text-align:center;
-  color:white
+  background-color: black;
+  text-align: center;
+  color: white
 }
 
 .game_image {
-width: 20em
+  width: 20em
 }
 
-.insane{
+.insane {
   background-color: teal;
   text-align: center;
 }
@@ -217,7 +246,7 @@ pre {
 
 #editor-container {
   display: flex;
-  flex-direction:column;
+  flex-direction: column;
   align-items: left;
   width: 200em;
 }
@@ -259,7 +288,7 @@ iframe {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-#main-container{
+#main-container {
   display: flex;
   width: 80%;
   margin-top: 2em;
@@ -270,20 +299,19 @@ iframe {
 #editor-container,
 #canvas-container {
 
-display: flex;
-flex-direction: column;
-align-items: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 #canvas-container {
-justify-content: center;
-width: 800%;
-height:800%;
+  justify-content: center;
+  width: 800%;
+  height: 800%;
 
 }
 
-#output{
+#output {
   height: 450px;
   width: 850px
 }
-
