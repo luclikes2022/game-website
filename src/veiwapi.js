@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', function(){
         .catch(error=>console.error('error fetching view count:', error));
     }
 
-    function incramentViewCount(){
+    function incrementViewCount(){
         fetch('/api/views',{method:'POST'})
         .then(response=>response.json())
         .then(data=>{
@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', function(){
         .catch(error=>console.error('error fetching view count:', error));
     }
 
-    incramentViewCount();
+    incrementViewCount();
     fetchViewCount();
 
 });
