@@ -1,7 +1,8 @@
 
 import express from 'express';
 const app = express();
-const port = 3000
+const port = 3000;
+import fs from 'fs';
 
 app.use(express.static('public'));
 
