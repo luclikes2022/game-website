@@ -32,7 +32,7 @@ function draw() {
   }
 
   if (keys['e']) {
-    bulletarray.push(new bullet(player.heading, player.x, player.y)); 
+    bulletarray.push(new bullet(player.heading+80, player.x*0.01, player.y*0.03));
   }
 
   if (keys[' ']) {

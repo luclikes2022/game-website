@@ -78,3 +78,6 @@ aiOut.style.display =
 
 buttonTrain.style.display = "block";
 buttonTrain.style.marginBottom = "20px";
+
+
+
